@@ -1,0 +1,24 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+    <data>
+        <!-- Add you code here -->
+        <!-- parient action window -->
+        <record id="patient_kids_action" model="ir.actions.act_window">
+            <field name="name">Kids</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">kids</field>
+            <field name="view_mode">tree,form,kanban</field>
+            <field name="context">{}</field>
+            <field name="domain">[('age', '&lt;=', 20)]</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    <!-- Add Text Here -->
+                </p><p>
+                    <!-- More details about what a user can do with this object will be OK --> 
+                </p>
+            </field>
+        </record>
+        <!-- This Menu Item must have a parent and an action -->
+        <menuitem id="kids_menu_act" name="Kids" parent="master_menu_categ" action="patient_kids_action" sequence="20"/>
+    </data>
+</odoo>

@@ -1,0 +1,60 @@
+<odoo>
+  <data>
+    <!-- explicit list view definition -->
+<!--
+    <record model="ir.ui.view" id="ujicoba.list">
+      <field name="name">ujicoba list</field>
+      <field name="model">ujicoba.ujicoba</field>
+      <field name="arch" type="xml">
+        <tree>
+          <field name="name"/>
+          <field name="value"/>
+          <field name="value2"/>
+        </tree>
+      </field>
+    </record>
+-->
+
+    <!-- actions opening views on models -->
+<!--
+    <record model="ir.actions.act_window" id="ujicoba.action_window">
+      <field name="name">ujicoba window</field>
+      <field name="res_model">ujicoba.ujicoba</field>
+      <field name="view_mode">tree,form</field>
+    </record>
+-->
+
+    <!-- server action to the one above -->
+<!--
+    <record model="ir.actions.server" id="ujicoba.action_server">
+      <field name="name">ujicoba server</field>
+      <field name="model_id" ref="model_ujicoba_ujicoba"/>
+      <field name="state">code</field>
+      <field name="code">
+        action = {
+          "type": "ir.actions.act_window",
+          "view_mode": "tree,form",
+          "res_model": model._name,
+        }
+      </field>
+    </record>
+-->
+
+    <!-- Top menu item -->
+<!--
+    <menuitem name="ujicoba" id="ujicoba.menu_root"/>
+-->
+    <!-- menu categories -->
+<!--
+    <menuitem name="Menu 1" id="ujicoba.menu_1" parent="ujicoba.menu_root"/>
+    <menuitem name="Menu 2" id="ujicoba.menu_2" parent="ujicoba.menu_root"/>
+-->
+    <!-- actions -->
+<!--
+    <menuitem name="List" id="ujicoba.menu_1_list" parent="ujicoba.menu_1"
+              action="ujicoba.action_window"/>
+    <menuitem name="Server to list" id="ujicoba" parent="ujicoba.menu_2"
+              action="ujicoba.action_server"/>
+-->
+  </data>
+</odoo>

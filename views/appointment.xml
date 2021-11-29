@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="view_appointment_tree" model="ir.ui.view">
+            <field name="name">hospital.appointment.tree</field>
+            <field name="model">hospital.appointment</field>
+            <field name="arch" type="xml">
+                <tree multi_edit="1">
+                    <header>
+                        <button name="action_done" string="Mark As Done" class="btn-primary" type="object"/>
+                    </header>
+                    <field name="name" optional= "show"/>
+                    <field name="patient_id" optional= "show"/>
+                    <field name="date_appointment" optional= "show"/>
+                    <field name="date_checkup" optional= "show"/>
+                    <field name="note" optional= "show"/>
+                    <field name="state" optional="show"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_appointment_form" model="ir.ui.view">
+            <field name="name">hospital.appointment.form</field>
+            <field name="model">hospital.appointment</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                        <button id="button_confirm" name="action_confirm" string="Confirm" class="btn-danger" states="draft"
+                                confirm="Are you sure that you need to confirm ?"
+                                type="object"/>
+                        <button id="button_done" name="action_done" string="Mark As Done" class="btn-primary" states="confirm"
+                                type="object"/>
+                        <button id="button_draft" name="action_draft" string="Set To Draft" class="btn-primary"
+                                states="cancel" type="object"/>
+                        <button id="button_cancel" name="action_cancel" string="Cancel" states="draft,done,confirm"
+                                confirm="Are you sure that you need to cancel ?"
+                                type="object"/>
+                        <field name="state" widget="statusbar" statusbar_visible="draft,done,confirm"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="name" readonly="1"/>
+                            </h1>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="patient_id"/>
+                            </group>
+                            <group>
+                                <field name="date_appointment"/>
+                                <field name="date_checkup"/>
+
+                                <field name="note"/>
+                            </group>
+                            </group>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids"/>
+                        <field name="activity_ids"/>
+                        <field name="message_ids"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_appointment_search" model="ir.ui.view">
+            <field name="name">hospital.appointment.search</field>
+            <field name="model">hospital.appointment</field>
+            <field name="arch" type="xml">
+                <search string="Patients">
+                    <field name="name"/>
+                    <field name="patient_id"/>
+                    <separator/>
+                    <group expand="1" string="Group By">
+                        <filter string="Patient" name="patient_id" context="{'group_by':'patient_id'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <!-- hospital_appointment action window -->
+        <record id="hospital_appointment_action" model="ir.actions.act_window">
+            <field name="name">hospital.appointment.action</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">hospital.appointment</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    <!-- Add Text Here -->
+                </p><p>
+                    <!-- More details about what a user can do with this object will be OK --> 
+                </p>
+            </field>
+        </record>
+        <menuitem id="appointment_menu_categ"
+                name="Appointments"
+                parent="patient_menu_root"
+                sequence="30"/>
+
+        <menuitem id="appointment_menu_act"
+                name="Appointments"
+                parent="appointment_menu_categ"
+                action="hospital_appointment_action"
+                sequence="10"/>
+
+        <!-- This Menu Item must have a parent and an action -->
+        <menuitem id="create_menu_act" name="Create Appointment" parent="appointment_menu_categ" action="create_appointment_action" sequence="20"/>
+
+        <!-- This Menu Item must have a parent and an action -->
+        <menuitem id="search_menu_act" name="Search Appointment" parent="appointment_menu_categ" action="search_appointment_action" sequence="30"/>
+                
+<!-- 
+        <menuitem id="menu_search_appointment"
+                name="Search Appointments"
+                parent="menu_appointment_root"
+                action="search_appointment_action"
+                sequence="30"/> -->
+    </data>
+</odoo>

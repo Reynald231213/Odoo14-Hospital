@@ -1,0 +1,150 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+    <data>
+        <!-- patient tree view -->
+        <record id="patient_view_tree" model="ir.ui.view">
+            <field name="name">Tree View</field>
+            <field name="model">patient</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <!-- Add your fields here -->
+                    <field name="reference" optional= "show"/>
+                    <field name="name" optional= "show"/>
+                    <field name="gender" optional= "show"/>
+                    <field name="responsible_id" optional= "show"/>
+                    <field name="age" optional= "show"/>
+                    <field name="note" optional= "show"/>
+                    <field name="state" optional= "show"/>    
+                </tree>
+            </field>
+        </record>
+
+        <!-- patient form view -->
+        <record id="patient_view_form" model="ir.ui.view">
+            <field name="name">patient.view.form</field>
+            <field name="model">patient</field>
+            <field name="arch" type="xml">
+                <form string="">
+                    <header>
+                        <button name="action_confirm" id="button_confirm" string="Confirm" class="btn-primary" state="draft"
+                            type="object"/>
+                        <button name="action_done" id="button_done" string="Mark As Done" class="btn-primary" state="confirm"
+                            type="object"/>
+                        <button name="action_draft" id="button_draft" string="Send To Draft" class="btn-primary" state="cancel"
+                            type="object"/>
+                        <button name="action_cancel" id="button_cancel" string="Cancel" state="draft,done,confirm"
+                            type="object"/>
+
+                        <field name="state" widget="statusbar" statusbar_visible="draft,done,confirm"/>
+                    </header>
+                    <sheet>
+                        <field name="image" widget="image" class="oe_avatar"/>
+                            <div class="oe_title">
+                                <h1>
+                                    <field name="reference" readonly="1"/>
+                                </h1>
+                            </div>
+                            <group>
+                               <field name="name"/>
+                               <field name="age"/>
+                               <field name="responsible_id"/>
+                            </group>
+                            <group>
+                               <field name="gender"/>
+                               <field name="note"/>
+                            </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- patient kanban view -->
+        <record id="view_patient_kanban" model="ir.ui.view">
+            <field name="name">Kanban View</field>
+            <field name="model">patient</field>
+            <field name="arch" type="xml">
+                <!-- Add your fields here -->
+                <kanban>
+                    <field name="name"/>
+                    <field name="age"/>
+                    <field name="gender"/>
+                    <field name="responsible_id"/>
+
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div t-attf-class="oe_kanban_global_click">
+                                <div class="oe_kanban_details">
+                                    <ul>
+                                        <li>
+                                            <h3>
+                                                <b>
+                                                <field name="name"/>
+                                                </b>    
+                                            </h3>
+                                        </li>
+                                        <li>
+                                            <h5>
+                                            <field name="age"/>
+                                            </h5>
+                                        </li>
+                                        <li>
+                                            <h5>
+                                            <field name="gender"/>
+                                            </h5>
+                                        </li>
+                                        <li>
+                                            <h6>
+                                            <field name="note"/>
+                                            </h6>
+                                        </li>    
+                                    </ul>
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+        <!-- patient search view -->
+        <record id="patient_view_search" model="ir.ui.view">
+            <field name="name">Search patient</field>
+            <field name="model">patient</field>
+            <field name="arch" type="xml">
+                <search string="Search Description">
+                    <!-- Add your fields here -->
+                    <field name="name"/>
+                    <field name="note"/>
+                    <filter string="Male" name="male" domain="[('gender', '=', 'male')]"/>
+                    <filter string="Female" name="female" domain="[('gender', '=', 'female')]"/>
+                    <filter string="Other" name="other" domain="[('gender', '=', 'other')]"/>
+                    <group expand="1" string="Group By">
+                        <filter string="Gender" name = "gender" context="{'group_by' : 'gender'}"/>
+                        <filter string="Patient Name" name = "patient_name" context="{'group_by' : 'name'}"/>
+                        <filter string="Responsible" name = "responsible_id" context="{'group_by' : 'responsible_id'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+        <!-- patient action window -->
+        <record id="patient_action" model="ir.actions.act_window">
+            <field name="name">Patient</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">patient</field>
+            <field name="context">{'search_default_gender':1}</field>
+            <field name="view_mode">tree,form,kanban</field>
+            
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    <!-- Add Text Here -->
+                    Create your First Patient!
+                </p>
+            </field>
+        </record>
+        <!-- This Menu Item will appear in the Upper bar, that's why It needs NO parent or action -->
+        <menuitem id="patient_menu_root" name="Hospital Management" sequence="10"/>
+        <!-- This Menu Item Must have a parent -->
+        <menuitem id="master_menu_categ" name="More ..." parent="patient_menu_root" sequence="10"/>
+        <!-- This Menu Item must have a parent and an action -->
+        <menuitem id="patient_menu_act" name="Patient" parent="master_menu_categ" action="patient_action" sequence="10"/>
+    </data>
+</odoo>
